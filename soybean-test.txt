@@ -1,0 +1,25 @@
+# import tensorflow as tf
+import numpy as np
+from PIL import Image
+import keras.models import load_model
+cats = {0: 'Bacterial Pustule',
+ 1: 'Frogeye Leaf Spot',
+ 2: 'Healty',
+ 3: 'Rust',
+ 4: 'Sudden Death Syndrome',
+ 5: 'Target Leaf Spot',
+ 6: 'Yellow Mosaic'}
+
+path = 'D:/model and data/test data/Sudden DS (107).jpg'
+
+modal = load_model("D:/model and data/SLDP.h5")
+
+image = Image.open(path)
+image = image.resize((224, 224))
+img = np.array(image)
+img_batch = np.expand_dims(img, axis=0)
+# img = img/255
+
+pred_index = np.argmax(modal.predict(img_batch))
+pred_class=cats[pred_index]
+print("\nThis leaf has '{}' disease.".format(pred_class))
